@@ -14,6 +14,12 @@
 
 ---
 
+## 🕹️ Oyundan görüntü
+
+<div align="center">
+  <img src="assets/game-screenshot.png" alt="Human vs AI XOX oyunu" width="560" />
+</div>
+
 ## 📊 Experiment 1 — Nəticələr
 
 ![1 000 oyunun nəticələri və müdafiə göstəriciləri](assets/experiment-1-summary.svg)
@@ -30,12 +36,6 @@
 > **Nəticə:** Müdafiədə irəliləyiş var, amma ümumi optimal strategiyanın öyrənildiyini söyləmək olmaz. Oyunlar zamanı insanın oynama tərzi də dəyişib; sabit test buna görə xüsusilə vacibdir.
 
 [**Eksperimentin metodologiyası, məhdudiyyətləri və tam nəticələri →**](experiments/zero_to_hero_2/README.md)
-
-## 🕹️ Oyundan görüntü
-
-<div align="center">
-  <img src="assets/game-screenshot.png" alt="Human vs AI XOX oyunu" width="560" />
-</div>
 
 ## 🚀 Oyunu sına
 
