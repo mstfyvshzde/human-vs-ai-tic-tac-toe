@@ -120,3 +120,7 @@ The use of ChatGPT is explicitly disclosed. Reported experimental results come f
 ## 📄 License
 
 This project is released under the [MIT License](LICENSE).
+
+## 🎮 Game Screenshot
+
+![Human vs AI Tic-Tac-Toe](assets/game-screenshot.png)

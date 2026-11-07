@@ -120,3 +120,7 @@ ChatGPT-nin istifadəsi açıq şəkildə qeyd olunur. Eksperiment nəticələri
 ## 📄 License
 
 Layihə [MIT License](LICENSE) ilə yayımlanır.
+
+## 🎮 Oyundan görüntü
+
+![Human vs AI Tic-Tac-Toe](assets/game-screenshot.png)
