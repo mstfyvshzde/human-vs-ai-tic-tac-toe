@@ -1,5 +1,7 @@
 # Human vs AI 🎮
 
+[![Python Tests](https://github.com/mstfyvshzde/human-vs-ai-tic-tac-toe/actions/workflows/tests.yml/badge.svg)](https://github.com/mstfyvshzde/human-vs-ai-tic-tac-toe/actions/workflows/tests.yml)
+
 ### Poor Shahzada vs Smart Me
 
 **Can an AI learn to play Tic-Tac-Toe from scratch?**

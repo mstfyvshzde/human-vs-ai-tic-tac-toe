@@ -1,5 +1,7 @@
 # Human vs AI 🎮
 
+[![Python Tests](https://github.com/mstfyvshzde/human-vs-ai-tic-tac-toe/actions/workflows/tests.yml/badge.svg)](https://github.com/mstfyvshzde/human-vs-ai-tic-tac-toe/actions/workflows/tests.yml)
+
 ### Yazıq Şahzadə vs Ağıllı Mən
 
 **AI sıfırdan XOX oynamağı öyrənə bilərmi?**
