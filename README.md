@@ -1,116 +1,69 @@
+<div align="center">
+
 # Human vs AI 🎮
+
+### 1 000 oyun. Sıfırdan başlayan AI nə öyrəndi?
+
+Öncədən yazılmış qalibiyyət strategiyası yoxdur. Sadəcə **XOX qaydaları**, **Q-learning** və insana qarşı 1 000 real oyun.
 
 [![Python Tests](https://github.com/mstfyvshzde/human-vs-ai-tic-tac-toe/actions/workflows/tests.yml/badge.svg)](https://github.com/mstfyvshzde/human-vs-ai-tic-tac-toe/actions/workflows/tests.yml)
 
-### Yazıq Şahzadə vs Ağıllı Mən
+**[Oyunu qur](#-oyunu-sına)** · **[Nəticələrə bax](#-experiment-1--nəticələr)** · **[Ətraflı hesabat](experiments/zero_to_hero_2/README.md)** · **[English](README.en.md)**
 
-**AI sıfırdan XOX oynamağı öyrənə bilərmi?**
+</div>
 
-Human vs AI — Python, Pygame və Tabular Q-learning ilə hazırlanmış açıq mənbəli Tic-Tac-Toe (XOX) eksperimentidir.
+---
 
-Bu layihədə AI-yə əvvəlcədən qalibiyyət və ya bloklama strategiyası verilmir. O, oyun qaydalarını bilir, lakin hansı gedişlərin faydalı olduğunu təcrübədən öyrənir.
+## 📊 Experiment 1 — Nəticələr
 
-## 🚀 Oyunu necə başladım?
+![1 000 oyunun nəticələri və müdafiə göstəriciləri](assets/experiment-1-summary.svg)
 
-Kompüterinizdə Python 3.10+ və Git quraşdırılmalıdır.
+| Göstərici | Başlanğıc | 1 000 oyundan sonra |
+|:--|--:|--:|
+| Optimal gedişlər (sabit test) | 63,25% | **63,50%** |
+| Düzgün bloklama (sabit test) | 41,43% | **54,29%** |
 
-**macOS / Linux — Terminal**
+**Nə öyrəndi?** Bəzi təhlükəli gedişləri bloklamağı və müəyyən açılışlara cavab verməyi.
 
-~~~bash
-git clone https://github.com/mstfyvshzde/human-vs-ai-tic-tac-toe
-cd human-vs-ai
+**Nədə çətinlik çəkdi?** Taxta döndürüldükdə eyni strategiyanı etibarlı şəkildə tətbiq etməyi. Son 40 oyunda sol alt künc açılışına qarşı **24 fürsətdən yalnız 3-də** mərkəzi seçdi.
+
+> **Nəticə:** Müdafiədə irəliləyiş var, amma ümumi optimal strategiyanın öyrənildiyini söyləmək olmaz. Oyunlar zamanı insanın oynama tərzi də dəyişib; sabit test buna görə xüsusilə vacibdir.
+
+[**Eksperimentin metodologiyası, məhdudiyyətləri və tam nəticələri →**](experiments/zero_to_hero_2/README.md)
+
+## 🕹️ Oyundan görüntü
+
+<div align="center">
+  <img src="assets/game-screenshot.png" alt="Human vs AI XOX oyunu" width="560" />
+</div>
+
+## 🚀 Oyunu sına
+
+Python 3.10+ tələb olunur. macOS üçün:
+
+```bash
+git clone https://github.com/mstfyvshzde/human-vs-ai-tic-tac-toe.git
+cd human-vs-ai-tic-tac-toe
 python3 -m venv .venv
 source .venv/bin/activate
-python -m pip install -r requirements.txt
+pip install -r requirements.txt
 python main.py
-~~~
+```
 
-**Windows — PowerShell**
+Windows və əlavə təlimatlar: **[INSTALL.md](INSTALL.md)**.
 
-~~~powershell
-git clone https://github.com/mstfyvshzde/human-vs-ai-tic-tac-toe
-cd human-vs-ai
-py -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe main.py
-~~~
+## 🧠 Necə işləyir?
 
-Ətraflı məlumat: [Quraşdırma təlimatı](INSTALL.md).
+- **Oyun:** Python + Pygame, insan **S**, AI **A** olaraq oynayır.
+- **Öyrənmə:** Tabular Q-learning; `α = 0.1`, `γ = 0.95`, `ε = 0.15`.
+- **Qaydalar:** AI gedişləri seçir; qalibiyyət və müdafiə strategiyası öncədən kodlaşdırılmayıb.
+- **Qiymətləndirmə:** Hər 100 oyundan bir checkpoint və eyni 400 taxta vəziyyətində analiz. Minimax burada **qiymətləndirmə üçündür**, AI-yə gediş öyrətmir.
+- **Məlumatlar:** Xam oyun qeydləri və öyrədilmiş model lokal saxlanılır, bu repoda yayımlanmır.
 
-## 🎮 Necə oynanılır?
+## 🔭 Növbəti: Experiment 2
 
-- Siz **S (Şahzadə)**, AI isə **A (Ağıllı Mən)** olaraq oynayırsınız.
-- İlk oyuna insan başlayır.
-- Qalib növbəti oyuna birinci başlayır.
-- Heç-heçədən sonra ilk başlayan tərəf dəyişir.
-- Yeni raund avtomatik açılır.
-- Oyun nəticələri lokal olaraq saxlanılır.
+**Bir küncdə öyrəndiyini digər küncdə niyə unudur?** Növbəti eksperimentdə simmetriyanı nəzərə alan Q-learning yanaşmasını müqayisə edəcəyik.
 
-## 🧠 AI necə öyrənir?
+---
 
-Layihə **Tabular Q-learning** istifadə edir.
-
-AI:
-- Q-table boş vəziyyətdə başlayır.
-- Epsilon-greedy exploration vasitəsilə gedişləri sınayır.
-- Qələbəyə +1, məğlubiyyətə -1, heç-heçəyə +0.5 reward alır.
-- Hər tamamlanmış oyundan sonra öyrəndiklərini saxlayır.
-
-AI-yə Minimax və ya əvvəlcədən hazırlanmış bloklama strategiyası verilmir.
-
-## 📊 Experiment 1 — Zero-to-Hero
-
-AI sıfır Q-table ilə başlayaraq insana qarşı 1,000 oyun oynadı.
-
-| Nəticə | Oyun sayı |
-|---|---:|
-| İnsan qələbəsi | 727 |
-| AI qələbəsi | 63 |
-| Heç-heçə | 210 |
-
-Sabit testdə bloklama göstəricisi 41.43%-dən 54.29%-ə yüksəldi.
-Lakin AI simmetrik taxta vəziyyətləri arasında öyrəndiklərini
-etibarlı şəkildə ötürə bilmədi.
-
-**[Tam elmi hesabat](experiments/zero_to_hero_2/README.md)**
-
-## 💾 Məlumatlar
-
-Proqram lokal `data/` qovluğu yaradır:
-
-- `scores.json` — oyun nəticələri
-- `q_table_live.pkl` — AI-nin öyrəndiyi dəyərlər
-- `game_history.jsonl` — gediş tarixçəsi
-
-Bu fayllar şəxsi kompüterinizdə saxlanılır və GitHub-a avtomatik göndərilmir.
-
-## 💻 Texnologiyalar
-
-- Python
-- Pygame
-- NumPy
-- Tabular Q-learning
-
-Pullü API və ya hazır Large Language Model tələb olunmur.
-
-macOS üzərində yoxlanılıb. Windows və Linux dəstəyi nəzərdə tutulub, lakin ayrıca test edilməlidir.
-
-## 👨‍💻 Müəlliflik və AI köməyi
-
-**İdeya, eksperiment dizaynı, strategiya, tədqiqat istiqaməti və iterativ testlər:** Şahzadə Mustafayev.
-
-**Kodun generasiyası və implementasiyası:** OpenAI ChatGPT tərəfindən, layihə müəllifinin yönləndirməsi və testləri əsasında.
-
-ChatGPT-nin istifadəsi açıq şəkildə qeyd olunur. Eksperiment nəticələri real oyun və evaluation məlumatlarına əsaslanır.
-
-## 🌐 Language
-
-[English README](README.en.md)
-
-## 📄 License
-
-Layihə [MIT License](LICENSE) ilə yayımlanır.
-
-## 🎮 Oyundan görüntü
-
-![Human vs AI Tic-Tac-Toe](assets/game-screenshot.png)
+<sub>İdeya, eksperiment dizaynı və testlər: Şahzadə Mustafayev. Kodun hazırlanmasında ChatGPT-dən müəllifin yönləndirməsi ilə istifadə olunub. [MIT License](LICENSE) · [English README](README.en.md)</sub>
