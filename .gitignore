@@ -25,3 +25,11 @@ live_learning_backup.py
 
 # Additional development snapshots
 *_before_*.py
+
+# Zero-to-Hero experimental data
+/experiments/zero_to_hero_2/logs/
+/experiments/zero_to_hero_2/models/
+/experiments/zero_to_hero_2/evaluations/
+/experiments/zero_to_hero_2/reports/
+/experiment_archive/
+/experiments/zero_to_hero_2/scores.json

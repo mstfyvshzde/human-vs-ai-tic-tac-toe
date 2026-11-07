@@ -1,6 +1,11 @@
 import pygame
-from game_log import save_completed_game
+from experiment_logger import ExperimentLogger
+from experiment_tracker import ExperimentTracker
+from experiment_config import EXPERIMENT_ROOT
+from checkpoint_manager import save_checkpoint
 import json
+import subprocess
+import sys
 from pathlib import Path
 
 from game import TicTacToe
@@ -33,21 +38,27 @@ symbol_font = pygame.font.SysFont("Arial", 70, bold=True)
 score_font = pygame.font.SysFont("Arial", 30, bold=True)
 
 ai = QLearningAgent(epsilon=0.15)
-DATA_DIR = Path(__file__).resolve().parent / "data"
-DATA_DIR.mkdir(parents=True, exist_ok=True)
-live_path = DATA_DIR / "q_table_live.pkl"
+from experiment_config import MODEL_FILE, SCORE_FILE
+live_path = MODEL_FILE
 
 if live_path.exists():
     ai.load(str(live_path))
 else:
     print("🧠 New AI: Untrained, starting from zero!")
 
-learner = LiveLearning(ai, save_path=str(live_path))
+logger = ExperimentLogger(root=EXPERIMENT_ROOT)
+tracker = ExperimentTracker(logger)
+
+learner = LiveLearning(
+    ai,
+    save_path=str(live_path),
+    logger=logger
+)
 
 game = TicTacToe()
 move_history = []
 
-SCORE_FILE = DATA_DIR / "scores.json"
+
 
 def load_scores():
     if SCORE_FILE.exists():
@@ -93,6 +104,8 @@ def start_round(first_player):
 
     game = TicTacToe()
     learner.pending = None
+    learner.game_id = None
+    learner.move_number = None
     move_history.clear()
     starter = first_player
 
@@ -150,14 +163,53 @@ def finish_round():
     )
     learner.observe(game, ai_symbol)
     learner.finish(result)
-    save_completed_game(
-        sum(scores[k] for k in ("human", "ai", "draw")),
-        game, human_symbol, ai_symbol, move_history
+    logger.log_game(
+        game_id=round_number,
+        winner=(
+            "human" if game.winner == human_symbol
+            else "ai" if game.winner == ai_symbol
+            else "draw"
+        ),
+        first_player=(
+            "human" if human_symbol == "X" else "ai"
+        ),
+        human_symbol=human_symbol,
+        ai_symbol=ai_symbol,
+        moves=move_history,
+        final_board=list(game.board),
+        scores=dict(scores),
+        q_table_size=len(ai.q_table),
+        nonzero_q_values=sum(
+            value != 0 for value in ai.q_table.values()
+        )
     )
 
-    scores["rounds"] += 1
-    save_scores()
     second_message = ""
+
+    completed = sum(
+        scores[k] for k in ("human", "ai", "draw")
+    )
+
+    if completed % 100 == 0:
+        checkpoint = (
+            EXPERIMENT_ROOT / "evaluations" /
+            f"checkpoint_{completed:04d}.json"
+        )
+
+        if not checkpoint.exists():
+            snapshot = save_checkpoint(completed)
+            print(f"💾 Model snapshot: {snapshot}")
+            print(f"🔬 Evaluating checkpoint {completed}...")
+            subprocess.run(
+                [
+                    sys.executable,
+                    str(Path(__file__).resolve().parent /
+                        "evaluate_checkpoint.py"),
+                    str(completed),
+                ],
+                cwd=Path(__file__).resolve().parent,
+                check=True
+            )
 
 
 def draw_text(text, font, color, center):
@@ -201,6 +253,14 @@ while running:
                                     "before": board_before,
                                     "after": list(game.board)
                                 })
+                                tracker.record_human_move(
+                                    game_id=round_number,
+                                    move_number=len(move_history),
+                                    board_before=board_before,
+                                    board_after=list(game.board),
+                                    human_symbol=human_symbol,
+                                    action=row * 3 + col
+                                )
                                 learner.observe(game, ai_symbol)
                             break
 
@@ -216,7 +276,7 @@ while running:
     ):
         state = ai.get_state(game)
 
-        action = ai.choose_action(
+        action, decision = ai.choose_action_tracked(
             state,
             game.legal_actions(),
             training=True
@@ -224,6 +284,8 @@ while running:
 
         if action is not None:
             board_before = list(game.board)
+            learner.game_id = round_number
+            learner.move_number = len(move_history) + 1
             learner.record(state, action)
             game.make_move(action)
             move_history.append({
@@ -232,6 +294,15 @@ while running:
                 "before": board_before,
                 "after": list(game.board)
             })
+            tracker.record_ai_move(
+                game_id=round_number,
+                move_number=len(move_history),
+                board_before=board_before,
+                board_after=list(game.board),
+                ai_symbol=ai_symbol,
+                action=action,
+                decision=decision
+            )
             learner.observe(game, ai_symbol)
 
     # Record result exactly once

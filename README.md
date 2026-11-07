@@ -58,31 +58,21 @@ AI:
 
 AI-yə Minimax və ya əvvəlcədən hazırlanmış bloklama strategiyası verilmir.
 
-## 📊 1,000 oyunluq eksperiment
+## 📊 Experiment 1 — Zero-to-Hero
 
-Layihənin müəllifi AI-yə qarşı 1,000 XOX oyunu oynayıb.
+AI sıfır Q-table ilə başlayaraq insana qarşı 1,000 oyun oynadı.
 
 | Nəticə | Oyun sayı |
 |---|---:|
-| Şahzadənin qələbələri | 472 |
-| AI-nin qələbələri | 112 |
-| Heç-heçə | 416 |
+| İnsan qələbəsi | 727 |
+| AI qələbəsi | 63 |
+| Heç-heçə | 210 |
 
-Final Q-table: **2,198 entries**, onlardan **611-i non-zero**.
+Sabit testdə bloklama göstəricisi 41.43%-dən 54.29%-ə yüksəldi.
+Lakin AI simmetrik taxta vəziyyətləri arasında öyrəndiklərini
+etibarlı şəkildə ötürə bilmədi.
 
-### Evaluation
-
-AI təlimdən əvvəl və sonra 2,000 oyunluq random-opponent qiymətləndirməsindən keçirilib.
-
-| Göstərici | Təlimdən əvvəl | Təlimdən sonra |
-|---|---:|---:|
-| Win rate | 43.1% | 48.0% |
-| Loss rate | 45.1% | 37.1% |
-| Draw rate | 11.9% | 15.0% |
-
-Bu nəticələr müəyyən inkişaf göstərir, lakin AI-nin optimal strategiya öyrəndiyini sübut etmir.
-
-Oyun tarixçəsi yalnız 750–1,000-ci raundlar üçün saxlanılıb.
+**[Tam elmi hesabat](experiments/zero_to_hero_2/README.md)**
 
 ## 💾 Məlumatlar
 

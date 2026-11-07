@@ -1,0 +1,14 @@
+{
+  "experiment": "Zero-to-Hero 2.0",
+  "target_games": 1000,
+  "evaluation_interval": 100,
+  "random_seed": 42,
+  "learning": {
+    "algorithm": "tabular_q_learning",
+    "alpha": 0.1,
+    "gamma": 0.95,
+    "epsilon": 0.15
+  },
+  "status": "completed",
+  "completed_games": 1000
+}
