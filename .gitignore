@@ -1,0 +1,27 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.DS_Store
+
+# Local gameplay data and trained models
+data/
+*.pkl
+
+# Local experiment results
+training_results.csv
+
+# Development backups
+*_backup.py
+main_before_*.py
+main_broken_backup.py
+live_learning_backup.py
+
+# IDE
+.vscode/
+.idea/
+
+# Additional development snapshots
+*_before_*.py
