@@ -12,8 +12,8 @@ ROOT = Path("experiments/experiment_2/phase_2/models")
 OUTPUT = Path("experiments/experiment_2/reports/independent_benchmark.json")
 
 MODELS = {
-    "Baseline": "baseline_0300.pkl",
-    "Final Frozen Model": "best_human_model.pkl",
+    "Baseline": "baseline_0300.json",
+    "Final Frozen Model": "best_human_model.json",
 }
 
 GAMES_PER_ROLE = 1000
@@ -105,7 +105,19 @@ def main():
 
     for model_name, filename in MODELS.items():
         agent = SymmetricQLearningAgent(epsilon=0)
-        agent.load(str(ROOT / filename))
+
+        model_data = json.loads(
+            (ROOT / filename).read_text(encoding="utf-8")
+        )
+
+        for entry in model_data["entries"]:
+            key = (
+                (tuple(entry["board"]), entry["player"]),
+                entry["action"],
+            )
+            if key in agent.q_table:
+                raise ValueError("Duplicate model entry")
+            agent.q_table[key] = float(entry["q_value"])
 
         results["models"][model_name] = {}
 
