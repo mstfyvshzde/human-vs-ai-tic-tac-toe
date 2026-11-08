@@ -52,6 +52,25 @@ The final challenge used the trained model with exploration disabled and trainin
 
 Equal-valued actions could still be selected randomly.
 
+## Independent Opponent Benchmark
+
+Two frozen models were evaluated against three scripted opponents, with
+1,000 games as X and 1,000 games as O per model-opponent combination.
+
+| Opponent | Baseline W/D/L | Final W/D/L |
+|---|---|---|
+| Random | 1192 / 597 / 211 | 1364 / 474 / 162 |
+| Tactical | 379 / 1255 / 366 | 324 / 1413 / 263 |
+| Minimax | 0 / 1743 / 257 | 0 / 1826 / 174 |
+
+Across 627 symmetry-canonical nonterminal states, expected optimal-action
+accuracy was 69.85% for the baseline and 75.07% for the final model.
+
+The final model lost fewer games to all three opponent types in this
+benchmark, but these results do not establish generalization to unseen
+human players. The benchmark uses deterministic random seeds and is not
+a statistical uncertainty analysis.
+
 ## Interpretation
 
 The results are consistent with improvement in certain game-playing behaviors.
@@ -70,7 +89,9 @@ The additional gameplay and frozen challenge also differ in experimental conditi
 
 The original implementation and Experiment 2 Python scripts are available in this repository's experiment branch.
 
-At the time of this report, the full datasets, portable trained model, and independent-opponent benchmark have not yet been published.
+The final model is published as JSON, alongside the independent-opponent benchmark code and recorded results.
+
+The benchmark currently loads local pickle checkpoints, including the baseline model. A portable JSON-based inference loader is still needed for independent reproduction. Full gameplay datasets are not yet published.
 
 The reported counts were checked against the author's local game files and score records.
 
