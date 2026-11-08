@@ -1,0 +1,125 @@
+{
+  "seed": 20261108,
+  "games_per_role": 1000,
+  "training": false,
+  "models": {
+    "Baseline": {
+      "Random": {
+        "total": {
+          "win": 1192,
+          "draw": 597,
+          "loss": 211
+        },
+        "by_role": {
+          "X": {
+            "win": 732,
+            "draw": 220,
+            "loss": 48
+          },
+          "O": {
+            "win": 460,
+            "draw": 377,
+            "loss": 163
+          }
+        }
+      },
+      "Tactical": {
+        "total": {
+          "win": 379,
+          "draw": 1255,
+          "loss": 366
+        },
+        "by_role": {
+          "X": {
+            "win": 346,
+            "draw": 610,
+            "loss": 44
+          },
+          "O": {
+            "win": 33,
+            "draw": 645,
+            "loss": 322
+          }
+        }
+      },
+      "Minimax": {
+        "total": {
+          "win": 0,
+          "draw": 1743,
+          "loss": 257
+        },
+        "by_role": {
+          "X": {
+            "win": 0,
+            "draw": 948,
+            "loss": 52
+          },
+          "O": {
+            "win": 0,
+            "draw": 795,
+            "loss": 205
+          }
+        }
+      }
+    },
+    "Final Frozen Model": {
+      "Random": {
+        "total": {
+          "win": 1364,
+          "draw": 474,
+          "loss": 162
+        },
+        "by_role": {
+          "X": {
+            "win": 798,
+            "draw": 154,
+            "loss": 48
+          },
+          "O": {
+            "win": 566,
+            "draw": 320,
+            "loss": 114
+          }
+        }
+      },
+      "Tactical": {
+        "total": {
+          "win": 324,
+          "draw": 1413,
+          "loss": 263
+        },
+        "by_role": {
+          "X": {
+            "win": 312,
+            "draw": 659,
+            "loss": 29
+          },
+          "O": {
+            "win": 12,
+            "draw": 754,
+            "loss": 234
+          }
+        }
+      },
+      "Minimax": {
+        "total": {
+          "win": 0,
+          "draw": 1826,
+          "loss": 174
+        },
+        "by_role": {
+          "X": {
+            "win": 0,
+            "draw": 1000,
+            "loss": 0
+          },
+          "O": {
+            "win": 0,
+            "draw": 826,
+            "loss": 174
+          }
+        }
+      }
+    }
+  }
+}
